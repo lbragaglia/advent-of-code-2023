@@ -2,7 +2,9 @@ namespace ParabolicReflectorDishTests;
 
 public interface IPlatform
 {
-    static char RoundedRock = 'O';
+    const char RoundedRock = 'O';
+    const char CubeShapedRock = '#';
+    const char EmptySpace = '.';
 
     int CalculateTotalLoad();
 }

@@ -12,7 +12,7 @@ public class Platform2 : IPlatform
     public int CalculateTotalLoad()
     {
         var totalLoad = 0;
-        string[] rows = Shape.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+        var rows = Shape.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
         var columns = rows[0].Length;
         for (var col = 0; col < columns; col++)
         {
@@ -22,33 +22,33 @@ public class Platform2 : IPlatform
             {
                 switch (rows[row][col])
                 {
-                    case '.':
+                    case IPlatform.EmptySpace:
                         continue;
-                    case 'O':
+                    case IPlatform.RoundedRock:
                         roundedRocks++;
                         break;
-                    case '#':
-                        totalLoad += CalculateCurrentAreaLoad(roundedRocks, currentLoad);
+                    case IPlatform.CubeShapedRock:
+                        totalLoad += GetCurrentAreaLoad(roundedRocks, currentLoad);
                         roundedRocks = 0;
                         currentLoad = rows.Length - row - 1;
                         break;
                 }
             }
+            totalLoad += GetCurrentAreaLoad(roundedRocks, currentLoad);
         }
 
         return totalLoad;
     }
 
-    private static int CalculateCurrentAreaLoad(int roundedRocks, int currentLoad)
+    private static int GetCurrentAreaLoad(int roundedRocks, int startingLoad)
     {
         var totalLoad = 0;
         while (roundedRocks > 0)
         {
-            totalLoad += currentLoad;
+            totalLoad += startingLoad;
             roundedRocks--;
-            currentLoad--;
+            startingLoad--;
         }
-
         return totalLoad;
     }
 }
