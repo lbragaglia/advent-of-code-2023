@@ -17,7 +17,6 @@ public class Platform2 : IPlatform
         for (var col = 0; col < columns; col++)
         {
             var currentLoad = rows.Length;
-            var roundedRocks = 0;
             for (var row = 0; row < rows.Length; row++)
             {
                 switch (rows[row][col])
@@ -25,30 +24,16 @@ public class Platform2 : IPlatform
                     case IPlatform.EmptySpace:
                         continue;
                     case IPlatform.RoundedRock:
-                        roundedRocks++;
+                        totalLoad += currentLoad;
+                        currentLoad--;
                         break;
                     case IPlatform.CubeShapedRock:
-                        totalLoad += GetCurrentAreaLoad(roundedRocks, currentLoad);
-                        roundedRocks = 0;
                         currentLoad = rows.Length - row - 1;
                         break;
                 }
             }
-            totalLoad += GetCurrentAreaLoad(roundedRocks, currentLoad);
         }
 
-        return totalLoad;
-    }
-
-    private static int GetCurrentAreaLoad(int roundedRocks, int startingLoad)
-    {
-        var totalLoad = 0;
-        while (roundedRocks > 0)
-        {
-            totalLoad += startingLoad;
-            roundedRocks--;
-            startingLoad--;
-        }
         return totalLoad;
     }
 }
