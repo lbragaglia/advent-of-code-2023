@@ -1,13 +1,13 @@
 using System.Text.RegularExpressions;
 
-namespace ParabolicReflectorDishTests;
+namespace ParabolicReflectorDishTests.Regex;
 
-public class Platform : IPlatform
+public class RegexPlatform : IPlatform
 {
     private readonly int _rowSize;
     public string Shape { get; }
 
-    public Platform(string shape)
+    public RegexPlatform(string shape)
     {
         Shape = shape;
         _rowSize = ToRows(shape)[0].Length;
@@ -31,7 +31,7 @@ public class Platform : IPlatform
         return totalLoad;
     }
 
-    public Platform TiltNorth()
+    public RegexPlatform TiltNorth()
     {
         var currentShape = Shape;
         var newShape = Roll(currentShape);
@@ -41,10 +41,18 @@ public class Platform : IPlatform
             newShape = Roll(currentShape);
         }
 
-        return new Platform(newShape);
+        return new RegexPlatform(newShape);
     }
 
-    private string Roll(string platformShape) =>
-        Regex.Replace(platformShape, @$"(\.)(.{{{_rowSize + 1}}})(O)", "$3$2$1",
+    private string Roll(string platformShape)
+    {
+        var emptySpace = System.Text.RegularExpressions.Regex.Escape(IPlatform.EmptySpace.ToString());
+        var rowSize = _rowSize + 1;
+        var roundedRock = System.Text.RegularExpressions.Regex.Escape(IPlatform.RoundedRock.ToString());
+
+        return System.Text.RegularExpressions.Regex.Replace(platformShape,
+            @$"({emptySpace})(.{{{rowSize}}})({roundedRock})",
+            "$3$2$1",
             RegexOptions.Compiled | RegexOptions.Singleline);
+    }
 }

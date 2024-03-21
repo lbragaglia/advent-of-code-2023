@@ -1,10 +1,10 @@
-namespace ParabolicReflectorDishTests;
+namespace ParabolicReflectorDishTests.Counting;
 
-public class Platform2 : IPlatform
+public class CountingPlatform : IPlatform
 {
     public string Shape { get; }
 
-    public Platform2(string shape)
+    public CountingPlatform(string shape)
     {
         Shape = shape;
     }
@@ -21,8 +21,6 @@ public class Platform2 : IPlatform
             {
                 switch (rows[row][col])
                 {
-                    case IPlatform.EmptySpace:
-                        continue;
                     case IPlatform.RoundedRock:
                         totalLoad += currentLoad;
                         currentLoad--;

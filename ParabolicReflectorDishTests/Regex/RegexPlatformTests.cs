@@ -1,14 +1,14 @@
-namespace ParabolicReflectorDishTests;
+namespace ParabolicReflectorDishTests.Regex;
 
 [TestFixture]
-public class PlatformTests : AbstractPlatformTests
+public class RegexPlatformTests : AbstractPlatformTests
 {
-    protected override Platform GetSut() => new(InitialPlatformShape);
+    protected override RegexPlatform GetSut() => new(InitialPlatformShape);
 
     [Test]
     public void TestFinalShape()
     {
-        var platform = new Platform(InitialPlatformShape);
+        var platform = new RegexPlatform(InitialPlatformShape);
         var actualShape = platform.TiltNorth().Shape;
         const string expectedShape = @"
 OOOO.#.O..
@@ -50,7 +50,7 @@ OO|.O
         var initialShape = string.Join(Environment.NewLine, testData.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Split("|")[0]));
         var expectedFinalShape = string.Join(Environment.NewLine, testData.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Split("|")[1]));
 
-        var platform = new Platform(initialShape);
+        var platform = new RegexPlatform(initialShape);
         var actualShape = platform.TiltNorth().Shape;
 
         Assert.That(actualShape, Is.EqualTo(expectedFinalShape));
